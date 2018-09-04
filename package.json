@@ -1,0 +1,27 @@
+{
+  "name": "service-database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db": "mongod",
+    "start": "node server/index.js",
+    "start-dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jongregtom/service-database.git"
+  },
+  "author": "Jon Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jongregtom/service-database/issues"
+  },
+  "homepage": "https://github.com/jongregtom/service-database#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.12"
+  }
+}
