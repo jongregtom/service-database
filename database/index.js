@@ -15,6 +15,9 @@ const ServiceSchema = new Schema({
   text: {type: String, default: null},
   status: {type: String, default: 'open'},
   fulfillerId: {type: String, default: null}
+},
+{
+  collection: 'services'
 });
 
 const Service = mongoose.model('Service', ServiceSchema);
