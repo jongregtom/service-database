@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://mongo/db', { useNewUrlParser: true });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'db connection error:'));
@@ -14,10 +14,8 @@ const ServiceSchema = new Schema({
   subject: {type: String, default: null},
   text: {type: String, default: null},
   status: {type: String, default: 'open'},
-  fulfillerId: {type: String, default: null}
-},
-{
-  collection: 'services'
+  fulfillerId: {type: String, default: null},
+  time : { type : Date, default: Date.now }
 });
 
 const Service = mongoose.model('Service', ServiceSchema);
