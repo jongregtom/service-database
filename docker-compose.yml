@@ -1,0 +1,21 @@
+version: "2"
+services:
+  web:
+    restart: always
+    volumes:
+      - "./app:/src/app"
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      WAIT_HOSTS: mongo:27017
+  mongo:
+    image: mongo
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db

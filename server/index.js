@@ -13,6 +13,11 @@ app.use(function(req, res, next) {
    return next();
 });
 
+//for testing connection only
+app.get('/', function(req, res) {
+  res.send('Welcome to the Service Database!')
+  res.end();
+})
 
 //add service request to DB
 app.post('/service', function(req, res) {
@@ -22,8 +27,9 @@ app.post('/service', function(req, res) {
   })
 })
 
-//get all services by zip code
+//get all service requests by zip code
 app.get('/servicesByZip', function(req, res) {
+ console.log(req.query)
  var zip = req.query.zip; 
  db.getServicesByZip(zip, (data) => {
  	res.send(data);
