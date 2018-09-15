@@ -4,15 +4,14 @@ services:
     restart: always
     volumes:
       - "./app:/src/app"
-    build: .
+    image: 103274529779.dkr.ecr.us-east-2.amazonaws.com/service-database:latest
     ports:
       - "3000:3000"
     links:
       - mongo
-    depends_on:
-      - mongo
     environment:
       WAIT_HOSTS: mongo:27017
+      NODE_ENV: production
   mongo:
     image: mongo
     ports: 

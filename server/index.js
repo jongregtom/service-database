@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../database/helpers.js');
+const PORT = process.env.port || 3000;
 
 const app = express();
 
@@ -37,4 +38,5 @@ app.get('/servicesByZip', function(req, res) {
  })
 })
 
-app.listen(3000, () => console.log('listening on port 3000!'))
+app.listen(PORT, () => console.log(`listening on port ${PORT}!`))
+

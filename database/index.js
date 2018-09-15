@@ -1,11 +1,13 @@
+const express = require('express');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.connect('mongodb://mongo/db', { useNewUrlParser: true });
+const mongoURI = process.env.DB_URI || 'mongodb://localhost/db';
 
+mongoose.connect(mongoURI, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'db connection error:'));
 db.once('open', function() {
-  console.log('mongo connected')
+  console.log('mongo connected');
 });
 
 const ServiceSchema = new Schema({
