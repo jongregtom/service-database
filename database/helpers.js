@@ -17,6 +17,7 @@ var addService = function(service, cb) {
 }
 
 var getServicesByZip = function(zip, cb) {
+  console.log(Service)
   if (typeof zip == Number) {
   	let zip = zip.toString();
   }
