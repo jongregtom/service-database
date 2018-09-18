@@ -12,6 +12,7 @@ db.once('open', function() {
 
 const ServiceSchema = new Schema({
   userId: {type: String, default: null},
+  userName: {type: String, default: null},
   zip: {type: String, default: null},
   subject: {type: String, default: null},
   text: {type: String, default: null},
