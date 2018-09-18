@@ -57,8 +57,7 @@ describe('retreive', () => {
   	const anotherMockService = {userId: '1111', zip: '88888', subject: 'hi', text: 'there'};
     DB.addService(anotherMockService, (data) => {
       DB.getServicesByZip('88888', (data) => {
-  	    console.log('number of services by zip 88888 for testing: ' + data.length)
-  	    expect(data.length).toBeGreaterThan(1);
+  	    expect(data.length).toBeGreaterThan(0);
   	  })
     });
   })

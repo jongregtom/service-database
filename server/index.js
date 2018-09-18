@@ -30,13 +30,54 @@ app.post('/service', function(req, res) {
 
 //get all service requests by zip code
 app.get('/servicesByZip', function(req, res) {
- console.log(req.query)
  var zip = req.query.zip; 
  db.getServicesByZip(zip, (data) => {
  	res.send(data);
  	res.end();
  })
 })
+
+//get service request by Id
+app.get('/serviceById/:id', function(req, res) {
+  db.getServiceById(req.params.id, (data) => {
+    res.send(data);
+    res.end();
+  })
+})
+
+//update service by Id ..../service/id?status=fulfilled...
+app.get('/service/:id', function(req, res) {
+  var id = req.params.id;
+  var updateParams = req.query;
+  db.updateService(id, updateParams, (data) => {
+  	if (data === 0) {
+  	  res.send('invalid service ID');
+  	  res.end();
+  	}
+  	res.send('service updated successfully: ' + data);
+  	res.end();
+  })
+})
+
+//delete service by Id, sends back deleted service
+app.get('/delete/:id', function(req, res) {
+  var id = req.params.id;
+  db.deleteService(id, (data) => {
+  	if (data === 0) {
+  	  res.send('invalid Service ID');
+  	  res.end();
+  	} else if (data.n === 0) {
+  	  res.send('No service deleted; could not find service ID: ' + id);
+  	  res.end();
+  	} else {
+  	  res.send(data.n + ' service deleted; service ID: ' + id)
+  	  res.end();
+  	}
+  	// res.send(data);
+  	// res.end();
+  })
+})
+
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`))
 
