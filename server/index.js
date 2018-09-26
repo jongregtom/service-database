@@ -78,6 +78,30 @@ app.get('/delete/:id', function(req, res) {
   })
 })
 
+app.get('/servicesByUserId', function(req, res) {
+  var id = req.query.id; 
+  db.getServicesByUserId(id, (data) => {
+ 	res.send(data);
+ 	res.end();
+ })
+})
+
+app.get('/servicesByFulfillerId', function(req, res) {
+  var id = req.query.id; 
+  db.getServicesByFulfillerId(id, (data) => {
+ 	res.send(data);
+ 	res.end();
+  })
+})
+
+app.get('/servicesByStatus/:zip', function(req, res) {
+  var zip = req.params.zip;
+  var status = req.query.status;
+  db.getServicesByStatus(zip, status, (data) => {
+  	res.send(data);
+  	res.end();
+  })
+})
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`))
 
