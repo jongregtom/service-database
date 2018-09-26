@@ -58,21 +58,21 @@ var deleteService = function(id, cb) {
   })
 } 
 
-var servicesByUserId = function(id, cb) {
+var getservicesByUserId = function(id, cb) {
   Service.find({'userId': id}, function(err, data) {
     if (err) return handleError(err);
     cb(data);
   })
 }
 
-var servicesByFulfillerId = function(id, cb) {
+var getservicesByFulfillerId = function(id, cb) {
   Service.find({'fulfillerId': id}, function(err, data) {
     if (err) return handleError(err);
     cb(data);
   })
 }
 
-var servicesByStatus = function(zip, status, cb) {
+var getservicesByStatus = function(zip, status, cb) {
   Service.find({'zip': zip, 'status': status}, function(err, data) {
     if (err) return handleError(err);
     cb(data);
@@ -84,7 +84,7 @@ module.exports = {
   getServiceById: getServiceById,
   updateService: updateService,
   deleteService: deleteService,
-  servicesByUserId: servicesByUserId,
-  servicesByFulfillerId: servicesByFulfillerId,
-  servicesByStatus: servicesByStatus
+  getservicesByUserId: getservicesByUserId,
+  getservicesByFulfillerId: getservicesByFulfillerId,
+  getservicesByStatus: getservicesByStatus
 }
