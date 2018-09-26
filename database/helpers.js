@@ -9,7 +9,8 @@ var addService = function(service, cb) {
     subject: service.subject,
     text: service.text,
     status: service.status,
-    fulfillerId: service.fulfillerId
+    fulfillerId: service.fulfillerId,
+    fulfillerName: service.fulfillerName
   })
   serviceInstance.save(function(err) {
     if (err) return handleError(err);
@@ -57,10 +58,33 @@ var deleteService = function(id, cb) {
   })
 } 
 
+var servicesByUserId = function(id, cb) {
+  Service.find({'userId': id}, function(err, data) {
+    if (err) return handleError(err);
+    cb(data);
+  })
+}
+
+var servicesByFulfillerId = function(id, cb) {
+  Service.find({'fulfillerId': id}, function(err, data) {
+    if (err) return handleError(err);
+    cb(data);
+  })
+}
+
+var servicesByStatus = function(zip, status, cb) {
+  Service.find({'zip': zip, 'status': status}, function(err, data) {
+    if (err) return handleError(err);
+    cb(data);
+  })
+}
 module.exports = {
   addService: addService,
   getServicesByZip: getServicesByZip,
   getServiceById: getServiceById,
   updateService: updateService,
-  deleteService: deleteService
+  deleteService: deleteService,
+  servicesByUserId: servicesByUserId,
+  servicesByFulfillerId: servicesByFulfillerId,
+  servicesByStatus: servicesByStatus
 }
