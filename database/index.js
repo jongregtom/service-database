@@ -19,9 +19,22 @@ const ServiceSchema = new Schema({
   status: {type: String, default: 'open'},
   fulfillerId: {type: String, default: null},
   fulfillerName: {type: String, default: null},
+  commentCount: {type: Number, default: 0},
   time : { type : Date, default: Date.now }
 });
 
-const Service = mongoose.model('Service', ServiceSchema);
+const CommentSchema = new Schema({
+  serviceId: {type: String},
+  userName: {type: String},
+  text: {type: String},
+  userId: {type: String},
+  time: {type: Date, default: Date.now}
+})
 
-module.exports = Service;
+const Service = mongoose.model('Service', ServiceSchema);
+const Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = {
+  Service: Service,
+  Comment: Comment
+}

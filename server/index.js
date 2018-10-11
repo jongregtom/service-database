@@ -103,5 +103,30 @@ app.get('/servicesByStatus/:zip', function(req, res) {
   })
 })
 
+app.post('/comment', function(req, res) {
+  var comment = req.body;
+  db.addComment(comment, () => {
+    db.getCommentsByServiceId(comment.serviceId, (data) => {
+      res.send(data);
+    })
+
+  })
+})
+
+app.get('/commentsByServiceId/:id', function(req, res) {
+  var id = req.params.id;
+  db.getCommentsByServiceId(id, (data) => {
+  	res.send(data);
+  })
+})
+
+app.delete('/comment/:commentId/:serviceId', function(req, res) {
+  db.deleteComment(req.params.commentId, () => {
+    db.getCommentsByServiceId(req.params.serviceId, (data) => {
+  	  res.send(data);
+  	})
+  })
+})
+
 app.listen(PORT, () => console.log(`listening on port ${PORT}!`))
 

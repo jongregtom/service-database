@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Service = require('./index.js');
+const Service = require('./index.js').Service;
+const Comment = require('./index.js').Comment;
 
 var addService = function(service, cb) {
   let serviceInstance = new Service({
@@ -37,12 +38,12 @@ var getServiceById = function(id, cb) {
 }
 
 var updateService = function(id, updateParams, cb) {
-  if (id.length !== 24) {
-    cb(0);
-  }
+  // if (id.length !== 24) {
+  //   cb(0);
+  // }
   var id = mongoose.Types.ObjectId(id);
   Service.findByIdAndUpdate(id, updateParams, {new: true}, function(err, data) {
-    if (err) return handleError(err);
+    if (err) {console.log(err)};
     cb(data);
   })
 }
@@ -78,6 +79,55 @@ var getservicesByStatus = function(zip, status, cb) {
     cb(data);
   })
 }
+
+var addComment = function(comment, cb) {
+  //add +1 to messageCount in Service Model
+  getServiceById(comment.serviceId, (service) => {
+    var count = service.commentCount + 1;
+    updateService(service._id, {commentCount: count}, (data) => {
+      return;
+    })
+  })
+  let commentInstance = new Comment({
+    serviceId: comment.serviceId,
+    userName: comment.userName,
+    userId: comment.userId,
+    text: comment.text
+  })
+  //add comment to Comment Model
+  commentInstance.save(function(err) {
+    if (err) {console.log(err)};
+    cb(commentInstance);
+  })
+}
+
+var getCommentsByServiceId = function(id, cb) {
+  Comment.find({'serviceId': id}, function(err, data) {
+    if (err) return handleError(err);
+    cb(data);
+  })
+}
+
+var deleteComment = function(id, cb) {
+  Comment.find({"_id": id}, function(err, comment) {
+    console.log('comment', comment)
+    if (err) return handleError(err);
+    var serviceId = comment[0].serviceId;
+    Service.find({"_id": serviceId}, function(err, service) {
+      console.log('service', service)
+      if (err) return handleError(err);
+      var count = service[0].commentCount - 1;
+      Service.findByIdAndUpdate(serviceId, {commentCount: count}, function(err, data) {
+        console.log(data);
+      })
+    })
+  })
+  Comment.deleteOne({'_id': id}, function(err, data) {
+    if (err) return handleError(err);
+    cb(data);   
+  })
+}
+
 module.exports = {
   addService: addService,
   getServicesByZip: getServicesByZip,
@@ -86,5 +136,8 @@ module.exports = {
   deleteService: deleteService,
   getservicesByUserId: getservicesByUserId,
   getservicesByFulfillerId: getservicesByFulfillerId,
-  getservicesByStatus: getservicesByStatus
+  getservicesByStatus: getservicesByStatus,
+  addComment: addComment,
+  getCommentsByServiceId: getCommentsByServiceId,
+  deleteComment: deleteComment
 }
