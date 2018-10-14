@@ -108,22 +108,17 @@ var getCommentsByServiceId = function(id, cb) {
   })
 }
 
-var deleteComment = function(id, cb) {
-  Comment.find({"_id": id}, function(err, comment) {
-    console.log('comment', comment)
-    if (err) return handleError(err);
-    var serviceId = comment[0].serviceId;
-    Service.find({"_id": serviceId}, function(err, service) {
-      console.log('service', service)
-      if (err) return handleError(err);
-      var count = service[0].commentCount - 1;
-      Service.findByIdAndUpdate(serviceId, {commentCount: count}, function(err, data) {
-        console.log(data);
-      })
+var deleteComment = function(id, serviceId, cb) {
+ Service.find({"_id": serviceId}, function(err, service) {
+    console.log('service', service)
+    if (err) return err;
+    var count = service[0].commentCount - 1;
+    Service.findByIdAndUpdate(serviceId, {commentCount: count}, function(err, data) {
+      console.log(data);
     })
   })
   Comment.deleteOne({'_id': id}, function(err, data) {
-    if (err) return handleError(err);
+    if (err) return (err);
     cb(data);   
   })
 }

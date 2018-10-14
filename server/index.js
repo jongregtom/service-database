@@ -120,11 +120,14 @@ app.get('/commentsByServiceId/:id', function(req, res) {
   })
 })
 
-app.delete('/comment/:commentId/:serviceId', function(req, res) {
-  db.deleteComment(req.params.commentId, () => {
-    db.getCommentsByServiceId(req.params.serviceId, (data) => {
-  	  res.send(data);
-  	})
+app.get('/comment', function(req, res) {
+  console.log('serviceId, commentId', req.query.serviceId, req.query.commentId)
+  db.deleteComment(req.query.commentId, req.query.serviceId, () => {
+   //  db.getCommentsByServiceId(req.query.serviceId, (data) => {
+  	//   res.send(data);
+  	// })
+    console.log('hi')
+  	res.end();
   })
 })
 
