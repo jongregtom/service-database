@@ -13,6 +13,7 @@ db.once('open', function() {
 const ServiceSchema = new Schema({
   userId: {type: String, default: null},
   userName: {type: String, default: null},
+  lastName: {type: String, default: null},
   zip: {type: String, default: null},
   subject: {type: String, default: null},
   text: {type: String, default: null},
@@ -26,6 +27,7 @@ const ServiceSchema = new Schema({
 const CommentSchema = new Schema({
   serviceId: {type: String},
   userName: {type: String},
+  lastName: {type: String, default: null},
   text: {type: String},
   userId: {type: String},
   time: {type: Date, default: Date.now}

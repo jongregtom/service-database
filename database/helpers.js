@@ -5,6 +5,7 @@ const Comment = require('./index.js').Comment;
 var addService = function(service, cb) {
   let serviceInstance = new Service({
     userName: service.userName,
+    lastName: service.lastName,
   	userId: service.userId,
     zip: service.zip,
     subject: service.subject,
@@ -59,21 +60,22 @@ var deleteService = function(id, cb) {
   })
 } 
 
-var getservicesByUserId = function(id, cb) {
+var getServicesByUserId = function(id, cb) {
   Service.find({'userId': id}, function(err, data) {
-    if (err) return handleError(err);
+    if (err) return err;
+    console.log('data', data)
     cb(data);
   })
 }
 
-var getservicesByFulfillerId = function(id, cb) {
+var getServicesByFulfillerId = function(id, cb) {
   Service.find({'fulfillerId': id}, function(err, data) {
     if (err) return handleError(err);
     cb(data);
   })
 }
 
-var getservicesByStatus = function(zip, status, cb) {
+var getServicesByStatus = function(zip, status, cb) {
   Service.find({'zip': zip, 'status': status}, function(err, data) {
     if (err) return handleError(err);
     cb(data);
@@ -91,6 +93,7 @@ var addComment = function(comment, cb) {
   let commentInstance = new Comment({
     serviceId: comment.serviceId,
     userName: comment.userName,
+    lastName: comment.lastName,
     userId: comment.userId,
     text: comment.text
   })
@@ -129,9 +132,9 @@ module.exports = {
   getServiceById: getServiceById,
   updateService: updateService,
   deleteService: deleteService,
-  getservicesByUserId: getservicesByUserId,
-  getservicesByFulfillerId: getservicesByFulfillerId,
-  getservicesByStatus: getservicesByStatus,
+  getServicesByUserId: getServicesByUserId,
+  getServicesByFulfillerId: getServicesByFulfillerId,
+  getServicesByStatus: getServicesByStatus,
   addComment: addComment,
   getCommentsByServiceId: getCommentsByServiceId,
   deleteComment: deleteComment

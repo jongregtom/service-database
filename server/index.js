@@ -80,10 +80,12 @@ app.get('/delete/:id', function(req, res) {
 
 app.get('/servicesByUserId', function(req, res) {
   var id = req.query.id; 
+  console.log('userId', id, typeof id);
   db.getServicesByUserId(id, (data) => {
- 	res.send(data);
- 	res.end();
- })
+    console.log('data in server', data)
+ 	  res.send(data);
+ 	  res.end();
+  })
 })
 
 app.get('/servicesByFulfillerId', function(req, res) {
