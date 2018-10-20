@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../database/helpers.js');
 const PORT = process.env.port || 3000;
+const request = require('request');
+
 
 const app = express();
 
@@ -54,6 +56,14 @@ app.get('/service/:id', function(req, res) {
   	  res.send('invalid service ID');
   	  res.end();
   	}
+    if (updateParams.status === 'Completed') {
+      var userId = data.userId;
+      console.log('data', userId)
+      request(`https://uiwr3rzqge.execute-api.us-east-2.amazonaws.com/default/karma-points_put?id=${userId}`, (err, res, body) => {
+      if (err) {console.log(err)}
+        console.log('body', body);
+      })
+    }
   	res.send('service updated successfully: ' + data);
   	res.end();
   })
